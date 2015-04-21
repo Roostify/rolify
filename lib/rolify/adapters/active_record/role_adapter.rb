@@ -25,7 +25,7 @@ module Rolify
           relation.roles.delete(roles)
           roles.each do |role|
             role.destroy if role.send(ActiveSupport::Inflector.demodulize(user_class).tableize.to_sym).limit(1).empty?
-          end
+          end if Rolify.remove_role_if_empty
         end
         roles
       end
@@ -43,6 +43,11 @@ module Rolify
         query = query.joins(:roles)
         query = where(query, conditions)
         query
+      end
+
+      def all_except(user, excluded_obj)
+        prime_key = user.primary_key.to_sym
+        user.where(prime_key => (user.all - excluded_obj).map(&prime_key))
       end
 
       private

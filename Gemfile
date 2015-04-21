@@ -12,8 +12,12 @@ group :test do
   else
     raise "Unknown model adapter: #{ENV["ADAPTER"]}"
   end
-  
+
   gem 'coveralls', :require => false
+  gem 'its'
+  gem 'byebug'
+  gem 'pry-byebug'
+  gem 'codeclimate-test-reporter', :require => nil
 end
 
 gemspec
